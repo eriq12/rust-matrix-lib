@@ -37,6 +37,14 @@ mod tests {
         assert_eq!(same_result[(0,0)], 42);
         assert_eq!(same_result[(0,1)], 21);
         assert_eq!(same_result[(1,1)], 100);
-
+        let test_mat_one : Matrix<u16> = Matrix::from((1..7).collect(), 2, 3);
+        let test_mat_two : Matrix<u16> = Matrix::from((7..13).collect(), 3, 2);
+        //print!("{}\n", test_mat_two);
+        let test_mat_result : Matrix<u16> = test_mat_one * test_mat_two;
+        //print!("{}\n", test_mat_result);
+        assert_eq!(test_mat_result[(0,0)], 58);
+        assert_eq!(test_mat_result[(1,0)], 64);
+        assert_eq!(test_mat_result[(0,1)], 139);
+        assert_eq!(test_mat_result[(1,1)], 154);
     }
 }

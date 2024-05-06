@@ -38,7 +38,7 @@ impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Matri
     }
 
     pub fn get_row<'a>(&'a self, row: usize) -> impl Iterator<Item = &'a T> {
-        self.values.iter().skip(row * self.columns).take(self.rows)
+        self.values.iter().skip(row * self.columns).take(self.columns)
     }
 
     pub fn get_col<'a>(&'a self, col: usize) -> impl Iterator<Item = &'a T> {
@@ -71,7 +71,7 @@ impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Mul f
         assert!(self.columns == rhs.rows);
         let mut new_matrix = Matrix::new(self.rows, rhs.columns);
         for row in 0..self.rows {
-            for col in 0..self.columns {
+            for col in 0..rhs.columns {
                 let pairs = self.get_row(row)
                     .zip(rhs.get_col(col))
                     .map(|(&a, &b)| a * b);
