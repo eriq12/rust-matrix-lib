@@ -15,7 +15,10 @@ pub struct Matrix <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T>
     pub columns : usize,
 }
 
-impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Matrix <T> {
+impl <T> Matrix <T>
+where 
+    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
+{
     pub fn new(rows: usize, columns : usize) -> Self {
         let values : Vec<T> = vec![Default::default();columns * rows];
         Matrix {
@@ -47,7 +50,10 @@ impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Matri
 
 }
 
-impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Index<(usize, usize)> for Matrix <T> {
+impl <T> Index<(usize, usize)> for Matrix <T>
+where 
+    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
+{
     type Output = T;
 
     fn index(&self, index: (usize, usize)) -> &Self::Output {
@@ -57,14 +63,20 @@ impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Index
 }
 
 
-impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> IndexMut<(usize, usize)> for Matrix <T> {
+impl <T> IndexMut<(usize, usize)> for Matrix <T>
+where 
+    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
+{
     fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
         let (col, row) = index;
         &mut self.values[row * self.columns + col]
     }
 }
 
-impl <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> Mul for Matrix<T> {
+impl <T> Mul for Matrix<T>
+where 
+    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
+{
     type Output = Matrix<T>;
 
     fn mul(self, rhs: Self) -> Self::Output {
