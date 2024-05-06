@@ -1,5 +1,5 @@
 [package]
-name = "rust_matrix_lib_single_threaded"
+name = "rust-matrix-lib-single-threaded"
 version = "0.1.0"
 edition = "2021"
 
