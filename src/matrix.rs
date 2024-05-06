@@ -9,7 +9,7 @@ use std::iter::Sum;
 // https://www.reddit.com/r/rust/comments/qlyn12/how_to_write_a_generic_function_for_only_numeric/
 //  - Comment by Nilstrieb about requiring the output type
 
-pub struct Matrix <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum> {
+pub struct Matrix <T> {
     values : Vec<T>,
     pub rows : usize,
     pub columns : usize,
@@ -17,7 +17,7 @@ pub struct Matrix <T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T>
 
 impl <T> Matrix <T>
 where 
-    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
+    T: Default + Copy
 {
     pub fn new(rows: usize, columns : usize) -> Self {
         let values : Vec<T> = vec![Default::default();columns * rows];
@@ -50,10 +50,7 @@ where
 
 }
 
-impl <T> Index<(usize, usize)> for Matrix <T>
-where 
-    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
-{
+impl <T> Index<(usize, usize)> for Matrix <T> {
     type Output = T;
 
     fn index(&self, index: (usize, usize)) -> &Self::Output {
@@ -63,10 +60,7 @@ where
 }
 
 
-impl <T> IndexMut<(usize, usize)> for Matrix <T>
-where 
-    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
-{
+impl <T> IndexMut<(usize, usize)> for Matrix <T> {
     fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
         let (col, row) = index;
         &mut self.values[row * self.columns + col]
@@ -75,7 +69,7 @@ where
 
 impl <T> Mul for Matrix<T>
 where 
-    T: Sized + Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
+    T: Default + Copy + Mul<Output = T> + Add<Output = T> + Sum
 {
     type Output = Matrix<T>;
 
