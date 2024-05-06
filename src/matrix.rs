@@ -9,6 +9,7 @@ use std::iter::Sum;
 // https://www.reddit.com/r/rust/comments/qlyn12/how_to_write_a_generic_function_for_only_numeric/
 //  - Comment by Nilstrieb about requiring the output type
 
+#[derive(Debug, Clone, PartialEq)]
 pub struct Matrix <T> {
     values : Vec<T>,
     pub rows : usize,
@@ -29,10 +30,10 @@ where
     }
 
     pub fn from(new_values: Vec<T>, rows: usize, columns: usize) -> Self {
-        let mut values : Vec<T> = vec![Default::default();columns * rows];
-        for (index, val) in new_values.iter().enumerate() {
-            values[index] = *val;
-        }
+        let values : Vec<T> = new_values.into_iter()
+            .chain(std::iter::repeat(Default::default()))
+            .take(rows * columns)
+            .collect();
         Matrix {
             values,
             rows,
