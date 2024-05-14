@@ -1,18 +1,18 @@
 pub mod matrix;
 
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+// <VecMatrix<u16> as MatrixConversion> is how you could use "fully-qualified syntax" to specify
+// a method from a specific trait (I used to use from for matrix conversion, but I think it's too annoying)
+// source: https://doc.rust-lang.org/book/ch19-03-advanced-traits.html, Listing 19-21
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use matrix::{VecMatrix, MatrixConversion};
 
     #[test]
     fn it_works() {
-        use matrix::Matrix;
         // test empty matrix to make sure index works
-        let mut result : Matrix<u16> = Matrix::new(2,2);
+        let mut result : VecMatrix<u16> = VecMatrix::new(2,2);
         assert_eq!(result[(1,0)], 0);
         assert_eq!(result[(0,0)], 0);
         assert_eq!(result[(0,1)], 0);
@@ -26,8 +26,9 @@ mod tests {
         assert_eq!(result[(0,0)], 42);
         assert_eq!(result[(0,1)], 21);
         assert_eq!(result[(1,1)], 100);
-        // test identity matrix
-        let two_identity : Matrix<u16> = Matrix::from(vec![1,0,0,1], 2, 2);
+        // test identity matrixW
+        let two_identity_data : Vec<u16> = vec![1,0,0,1];
+        let two_identity : VecMatrix<u16> = VecMatrix::matrix_convert(two_identity_data, 2, 2);
         assert_eq!(two_identity[(1,0)], 0);
         assert_eq!(two_identity[(0,0)], 1);
         assert_eq!(two_identity[(0,1)], 0);
@@ -37,10 +38,10 @@ mod tests {
         assert_eq!(same_result[(0,0)], 42);
         assert_eq!(same_result[(0,1)], 21);
         assert_eq!(same_result[(1,1)], 100);
-        let test_mat_one : Matrix<u16> = Matrix::from((1..7).collect(), 2, 3);
-        let test_mat_two : Matrix<u16> = Matrix::from((7..13).collect(), 3, 2);
+        let test_mat_one : VecMatrix<u16> = VecMatrix::matrix_convert((1..7).collect::<Vec<u16>>(), 2, 3);
+        let test_mat_two : VecMatrix<u16> = VecMatrix::matrix_convert((7..13).collect::<Vec<u16>>(), 3, 2);
         //print!("{}\n", test_mat_two);
-        let test_mat_result : Matrix<u16> = test_mat_one * test_mat_two;
+        let test_mat_result : VecMatrix<u16> = test_mat_one * test_mat_two;
         //print!("{}\n", test_mat_result);
         assert_eq!(test_mat_result[(0,0)], 58);
         assert_eq!(test_mat_result[(1,0)], 64);
