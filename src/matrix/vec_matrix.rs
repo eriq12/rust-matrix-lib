@@ -25,7 +25,10 @@ impl <T> IndexMut <(usize, usize)> for VecMatrix<T> {
 }
 
 
-impl <T:Default + Copy> VecMatrix<T> {
+impl <T> VecMatrix<T>
+where
+    T: Default + Copy
+{
     pub fn new(rows: usize, columns: usize) -> Self {
         VecMatrix {
             data: std::iter::repeat(Default::default()).take(columns * rows).collect(),
@@ -56,9 +59,10 @@ where
     }
 }
 
+// it seems the where requirements are due to adding Mul, Index, and IndexMut to the Matrix Trait
 impl <'a, T> Matrix <'a, T> for VecMatrix<T>
 where
-    T: 'a + Copy + Default
+    T: 'a + Copy + Default + Mul<Output = T> + Add<Output = T> + Sum
 {
     fn rows(&self) -> usize {
         self.rows

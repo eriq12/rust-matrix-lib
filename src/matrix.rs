@@ -1,10 +1,10 @@
-use std::ops::{Index, IndexMut};
+use std::ops::{Index, IndexMut, Mul, Add};
 pub mod vec_matrix;
 
-pub trait Matrix<'a, T> : Index<(usize,usize)> + IndexMut<(usize, usize)>
+pub trait Matrix<'a, T> : Index<(usize,usize)> + IndexMut<(usize, usize)> + Mul
 where
     Self: Sized,
-    T: 'a
+    T: 'a + Mul<Output = T> + Add<Output = T>
 {
     fn rows(&self) -> usize;
     fn columns(&self) -> usize;
