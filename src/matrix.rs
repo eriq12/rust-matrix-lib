@@ -19,6 +19,7 @@ pub trait MatrixConversion{
 }
 
 // matrix stucts
+#[derive(Clone)]
 pub struct VecMatrix <T>{
     data: Vec<T>,
     columns: usize,
